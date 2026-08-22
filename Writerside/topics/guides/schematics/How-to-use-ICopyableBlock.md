@@ -136,6 +136,29 @@ This means you can use `onPaste` as a form of "pre-processor" for the block enti
 
 This may sound complicated but once you wrap your head around it, it isn't that bad.
 
+<code-block lang="mermaid">
+graph TB
+    subgraph Copy
+        direction LR
+        A[Ship is being copied]
+        A --> B[onCopy]
+        B -- Not null --> D
+        B -- null --> C[Block Entity saveAdditional]
+        C --> D
+        D[Saved data]
+    end
+    subgraph Paste
+        direction RL
+        E[Saved data]
+        E --> F[onPaste]
+        F --> G[Block Entity load]
+        E -- onPaste is null --> G
+        G --> H[Ship has been pasted]
+    end
+    Copy --> Paste    
+
+</code-block>
+
 ## Example
 
 Below is an example of a simple block which stores a position on another ship,
